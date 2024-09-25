@@ -1,2 +1,2 @@
-# ElytraMC - Conveinent way of managing your Minecraft server(s)
+# ElytraMC - Convenient way of managing your Minecraft server(s)
 
