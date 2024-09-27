@@ -8,12 +8,17 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+
+	"elytra.com/backend/docs"
+	"elytra.com/backend/features/user/getUser"
 )
 
 func setupRoutes(e *echo.Echo) {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
+	docs.RegisterDocs(e, "./docs/openapi.spec.yaml")
+	getUser.RegisterGetUser(e)
 }
 
 func setupLogger(e *echo.Echo) {
@@ -45,7 +50,7 @@ func main() {
 
 	bootstrap(e)
 
-	if err := e.Start(":8000"); err != nil {
+	if err := e.Start(":9000"); err != nil {
 		log.Fatal().Msg(err.Error())
 	}
 }
