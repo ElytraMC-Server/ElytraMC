@@ -1,0 +1,28 @@
+get:
+  operationId: getUsers
+  summary: Get users
+  description: Get all users
+  responses:
+    "200":
+      description: A list of users
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  name:
+                    type: string
+                    surname:
+                      type: string
+              example:
+                - id: 1
+                  name: John
+                  surname: Doe
+                - id: 2
+                  name: Jane
+                  surname: Doe
+
