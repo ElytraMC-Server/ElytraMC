@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"os"
 
@@ -10,16 +9,13 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
-	"github.com/knadh/koanf/parsers/yaml"
-	"github.com/knadh/koanf/providers/file"
-	"github.com/knadh/koanf/v2"
-
+	"elytra.com/backend/config"
 	"elytra.com/backend/docs"
 	"elytra.com/backend/features/user/getUser"
 )
 
-func setupRoutes(e *echo.Echo, conf Config) {
-	if conf.Mode == "dev" {
+func setupRoutes(e *echo.Echo, conf config.Config) {
+	if conf.Mode == config.Dev {
 		docs.RegisterDocs(e, "./docs/spec.yaml")
 		e.File("/elytra.png", "./elytra.png")
 	}
@@ -45,35 +41,15 @@ func setupLogger(e *echo.Echo) {
 	}))
 }
 
-func bootstrap(e *echo.Echo, conf Config) {
+func bootstrap(e *echo.Echo, conf config.Config) {
 	setupLogger(e)
 	setupRoutes(e, conf)
-}
-
-type Config struct {
-	AppPort string `koanf:"appPort"`
-	Mode    string `koanf:"appMode"`
-}
-
-func getConfig() (Config, error) {
-	koanf := koanf.New(".")
-	var conf Config
-
-	if err := koanf.Load(file.Provider("config.yaml"), yaml.Parser()); err != nil {
-		return conf, errors.New(fmt.Sprintf("Couldn't load the config: %v", err))
-	}
-
-	if err := koanf.Unmarshal("", &conf); err != nil {
-		return conf, errors.New(fmt.Sprintf("Couldn't marshal the config: %v", err))
-	}
-
-	return conf, nil
 }
 
 func main() {
 	e := echo.New()
 
-	conf, err := getConfig()
+	conf, err := config.GetConfig()
 
 	if err != nil {
 		log.Fatal().Msg(err.Error())
@@ -81,7 +57,7 @@ func main() {
 
 	bootstrap(e, conf)
 
-	if conf.Mode == "dev" {
+	if conf.Mode == config.Prod {
 		e.Use(redirectToDocs)
 	}
 
