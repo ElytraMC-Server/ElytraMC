@@ -17,7 +17,7 @@ func setupRoutes(e *echo.Echo) {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
-	docs.RegisterDocs(e, "./docs/openapi.spec.yaml")
+	docs.RegisterDocs(e, "./docs/spec.yaml")
 	getUser.RegisterGetUser(e)
 }
 
@@ -50,7 +50,18 @@ func main() {
 
 	bootstrap(e)
 
+	e.Use(redirectToDocs)
+
 	if err := e.Start(":9000"); err != nil {
 		log.Fatal().Msg(err.Error())
+	}
+}
+
+func redirectToDocs(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		if c.Request().URL.Path == "/" {
+			return c.Redirect(302, "/docs")
+		}
+		return next(c)
 	}
 }
