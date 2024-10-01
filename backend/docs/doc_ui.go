@@ -18,11 +18,12 @@ func (r *route) ui(ctx echo.Context) error {
 <!doctype html>
 <html>
   <head>
-    <title>Scalar API Reference</title>
+    <title>ElytraMC API Reference</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1" />
+	<link rel="icon" type="image/png" href="/elytra.png" />
   </head>
   <body>
     <!-- Need a Custom Header? Check out this example https://codepen.io/scalarorg/pen/VwOXqam -->

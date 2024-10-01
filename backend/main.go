@@ -18,6 +18,7 @@ func setupRoutes(e *echo.Echo) {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 	docs.RegisterDocs(e, "./docs/spec.yaml")
+	e.File("/elytra.png", "./elytra.png")
 	getUser.RegisterGetUser(e)
 }
 
