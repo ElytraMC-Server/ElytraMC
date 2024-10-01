@@ -14,10 +14,14 @@ import (
 	"elytra.com/backend/features/user/getUser"
 )
 
+func registerOpenAPI(e *echo.Echo) {
+	docs.RegisterDocs(e, "./docs/spec.yaml")
+	e.File("/elytra.png", "./elytra.png")
+}
+
 func setupRoutes(e *echo.Echo, conf config.Config) {
 	if conf.Mode == config.Dev {
-		docs.RegisterDocs(e, "./docs/spec.yaml")
-		e.File("/elytra.png", "./elytra.png")
+		registerOpenAPI(e)
 	}
 	getUser.RegisterGetUser(e)
 }
