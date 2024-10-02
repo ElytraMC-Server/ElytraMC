@@ -16,8 +16,8 @@ get:
                   type: integer
                   name:
                     type: string
-                    surname:
-                      type: string
+                  surname:
+                    type: string
               example:
                 - id: 1
                   name: John
@@ -25,4 +25,3 @@ get:
                 - id: 2
                   name: Jane
                   surname: Doe
-

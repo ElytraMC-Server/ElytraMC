@@ -61,7 +61,7 @@ func main() {
 
 	bootstrap(e, conf)
 
-	if conf.Mode == config.Prod {
+	if conf.Mode == config.Dev {
 		e.Use(redirectToDocs)
 	}
 

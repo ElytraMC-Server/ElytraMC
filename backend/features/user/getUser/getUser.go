@@ -17,17 +17,11 @@ type UserDTO struct {
 	Surname string `json:"surname"`
 }
 
-type Response struct {
-	Users []UserDTO `json:"users"`
-}
-
 func (r route) getUsers(ctx echo.Context) error {
 	listOfUsers := []UserDTO{
 		{1, "John", "Doe"},
 		{2, "Jane", "Doe"},
 	}
 
-	return ctx.JSON(200, Response{
-		Users: listOfUsers,
-	})
+	return ctx.JSON(200, listOfUsers)
 }
