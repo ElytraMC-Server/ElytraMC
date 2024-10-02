@@ -25,7 +25,7 @@ func GetConfig() (Config, error) {
 	koanf := koanf.New(".")
 	var conf Config
 
-	if err := koanf.Load(file.Provider("config.yaml"), yaml.Parser()); err != nil {
+	if err := koanf.Load(file.Provider("config/config.yaml"), yaml.Parser()); err != nil {
 		return conf, errors.New(fmt.Sprintf("Couldn't load the config: %v", err))
 	}
 
