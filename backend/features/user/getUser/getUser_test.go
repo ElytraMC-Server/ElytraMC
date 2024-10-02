@@ -11,6 +11,7 @@ import (
 	"elytra.com/backend/test"
 )
 
+// this tests the endpoints correctness towards the openapi specification
 func TestOpenApi(t *testing.T) {
 	e := echo.New()
 	req := httptest.NewRequest(http.MethodGet, "/users", nil)
