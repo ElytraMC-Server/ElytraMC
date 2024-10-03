@@ -17,6 +17,7 @@ require (
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
+	github.com/santhosh-tekuri/jsonschema/v6 v6.0.1 // indirect
 )
 
 require (
@@ -28,8 +29,8 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/pb33f/libopenapi v0.18.1
-	github.com/pb33f/libopenapi-validator v0.1.0
+	github.com/pb33f/libopenapi v0.18.2
+	github.com/pb33f/libopenapi-validator v0.2.0
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/vmware-labs/yaml-jsonpath v0.3.2 // indirect
