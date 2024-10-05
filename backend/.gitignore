@@ -1,4 +1,5 @@
 .env
+*.env
 docs/spec.yaml
 config/config.yaml
 .bin
