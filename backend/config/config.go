@@ -19,6 +19,7 @@ const (
 type Config struct {
 	AppPort string  `koanf:"appPort"`
 	Mode    appMode `koanf:"appMode"`
+	DbConn  string  `koanf:"dbConn"`
 }
 
 func GetConfig() (Config, error) {

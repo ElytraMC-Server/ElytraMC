@@ -14,14 +14,14 @@ get:
               properties:
                 id:
                   type: integer
-                  name:
+                  username:
                     type: string
-                  surname:
+                  email:
                     type: string
               example:
-                - id: 1
-                  name: John
-                  surname: Doe
-                - id: 2
-                  name: Jane
-                  surname: Doe
+                - id: e4efa860-92e1-4802-ad96-98b6bba00ce1
+                  username: Salam
+                  email: salam@gmail.com
+                - id: fabcb496-0af5-46c2-8bfe-790d5bb721c8
+                  username: Poka
+                  email: poka@gmail.com

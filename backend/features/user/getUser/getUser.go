@@ -1,27 +1,51 @@
+//go:generate sqlc generate
 package getUser
 
-import "github.com/labstack/echo/v4"
+import (
+	"net/http"
+
+	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/labstack/echo/v4"
+
+	"elytra.com/backend/features/user/getUser/database"
+	"elytra.com/backend/utils"
+)
 
 type route struct {
+	db *pgxpool.Pool
 }
 
-func RegisterGetUser(e *echo.Echo) {
-	route := route{}
+func RegisterGetUser(e *echo.Echo, db *pgxpool.Pool) {
+	route := route{db: db}
 
 	e.GET("/users", route.getUsers)
 }
 
 type UserDTO struct {
-	Id      int    `json:"id"`
-	Name    string `json:"name"`
-	Surname string `json:"surname"`
+	Id       pgtype.UUID `json:"id"`
+	Username string      `json:"username"`
+	Email    string      `json:"email"`
+}
+
+func mapToDto(u database.User) UserDTO {
+	return UserDTO{
+		Id:       u.ID,
+		Username: u.Username,
+		Email:    u.Email.String,
+	}
 }
 
 func (r route) getUsers(ctx echo.Context) error {
-	listOfUsers := []UserDTO{
-		{1, "John", "Doe"},
-		{2, "Jane", "Doe"},
+	query := database.New(r.db)
+
+	users, err := query.GetUsers(ctx.Request().Context())
+
+	if err != nil {
+		return ctx.NoContent(http.StatusInternalServerError)
 	}
 
-	return ctx.JSON(200, listOfUsers)
+	mapped := utils.Map(users, mapToDto)
+
+	return ctx.JSON(200, mapped)
 }
