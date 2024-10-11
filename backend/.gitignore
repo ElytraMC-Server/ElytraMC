@@ -1,5 +1,5 @@
 .env
 *.env
 docs/spec.yaml
-config/config.yaml
+config/secrets.yaml
 .bin
