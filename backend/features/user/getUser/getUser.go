@@ -4,7 +4,6 @@ package getUser
 import (
 	"net/http"
 
-	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
 
@@ -20,20 +19,6 @@ func RegisterGetUser(e *echo.Echo, db *pgxpool.Pool) {
 	route := route{db: db}
 
 	e.GET("/users", route.getUsers)
-}
-
-type UserDTO struct {
-	Id       pgtype.UUID `json:"id"`
-	Username string      `json:"username"`
-	Email    string      `json:"email"`
-}
-
-func mapToDto(u database.User) UserDTO {
-	return UserDTO{
-		Id:       u.ID,
-		Username: u.Username,
-		Email:    u.Email.String,
-	}
 }
 
 func (r route) getUsers(ctx echo.Context) error {

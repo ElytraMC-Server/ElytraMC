@@ -1,9 +1,9 @@
 package user
 
-// done for
+import . "github.com/google/uuid"
 
-type User struct {
-	id      string
-	name    string
-	surname string
+type UserDTO struct {
+	Id    UUID   `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
 }

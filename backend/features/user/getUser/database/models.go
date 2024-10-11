@@ -6,10 +6,11 @@ package database
 
 import (
 	"github.com/jackc/pgx/v5/pgtype"
+	pgx_google_uuid "github.com/vgarvardt/pgx-google-uuid/v5"
 )
 
 type User struct {
-	ID       pgtype.UUID
+	ID       pgx_google_uuid.UUID
 	Email    pgtype.Text
 	Username string
 }

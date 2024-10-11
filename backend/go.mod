@@ -3,12 +3,14 @@ module elytra.com/backend
 go 1.23.1
 
 require (
+	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.7.1
 	github.com/knadh/koanf/parsers/yaml v0.1.0
 	github.com/knadh/koanf/providers/file v1.1.0
 	github.com/knadh/koanf/v2 v2.1.1
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/rs/zerolog v1.33.0
+	github.com/vgarvardt/pgx-google-uuid/v5 v5.6.0
 )
 
 require (
