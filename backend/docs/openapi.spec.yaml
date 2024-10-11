@@ -9,4 +9,7 @@ servers:
 
 paths:
   /users:
-    $ref: "./../features/user/getUser/openapi.getUser.yaml"
+    get:
+      $ref: "./../features/user/getUser/openapi.getUser.yaml"
+    post:
+      $ref: "./../features/user/createUser/openapi.createUser.yaml"

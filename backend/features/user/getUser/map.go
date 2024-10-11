@@ -11,6 +11,6 @@ func mapToDto(u User) UserDTO {
 	return UserDTO{
 		Id:    uuid.UUID(u.ID),
 		Name:  u.Username,
-		Email: u.Email.String,
+		Email: u.Email,
 	}
 }

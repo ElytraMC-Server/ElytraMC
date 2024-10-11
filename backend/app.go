@@ -7,7 +7,9 @@ import (
 
 	"elytra.com/backend/config"
 	"elytra.com/backend/database"
+	"elytra.com/backend/features/user/createUser"
 	"elytra.com/backend/features/user/getUser"
+	"github.com/go-playground/validator/v10"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -22,7 +24,8 @@ type App struct {
 }
 
 type State struct {
-	db *pgxpool.Pool
+	db        *pgxpool.Pool
+	validator *validator.Validate
 }
 
 func (app *App) setupRoutes() {
@@ -30,6 +33,7 @@ func (app *App) setupRoutes() {
 		registerOpenAPI(app.Echo)
 	}
 	getUser.RegisterGetUser(app.Echo, app.state.db)
+	createUser.RegisterPostUser(app.Echo, app.state.db, app.state.validator)
 }
 
 func (app *App) setupLogger() {
@@ -72,6 +76,7 @@ func NewState(conf config.Config) (State, error) {
 	if err != nil {
 		return State{}, err
 	}
+	validator := validator.New(validator.WithRequiredStructEnabled())
 
-	return State{db}, nil
+	return State{db, validator}, nil
 }

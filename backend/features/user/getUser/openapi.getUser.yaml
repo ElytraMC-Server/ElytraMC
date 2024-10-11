@@ -1,27 +1,26 @@
-get:
-  operationId: getUsers
-  summary: Get users
-  description: Get all users
-  responses:
-    "200":
-      description: A list of users
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              type: object
-              properties:
-                id:
-                  type: integer
-                username:
-                  type: string
-                email:
-                  type: string
-              example:
-                - id: e4efa860-92e1-4802-ad96-98b6bba00ce1
-                  username: Salam
-                  email: salam@gmail.com
-                - id: fabcb496-0af5-46c2-8bfe-790d5bb721c8
-                  username: Poka
-                  email: poka@gmail.com
+operationId: getUsers
+summary: Get users
+description: Get all users
+responses:
+  "200":
+    description: A list of users
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              username:
+                type: string
+              email:
+                type: string
+            example:
+              - id: e4efa860-92e1-4802-ad96-98b6bba00ce1
+                username: Salam
+                email: salam@gmail.com
+              - id: fabcb496-0af5-46c2-8bfe-790d5bb721c8
+                username: Poka
+                email: poka@gmail.com
