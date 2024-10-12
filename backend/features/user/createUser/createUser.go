@@ -4,9 +4,11 @@ package createUser
 import (
 	"net/http"
 
-	"elytra.com/backend/features/user/createUser/database"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
+
+	"elytra.com/backend/features/user/createUser/database"
+	"elytra.com/backend/utils"
 )
 
 type route struct {
@@ -40,6 +42,9 @@ func (r route) createUser(ctx echo.Context) error {
 
 	user, err := query.CreateUser(ctx.Request().Context(), mapToParams(request))
 	if err != nil {
+		if utils.IsUniqueViolation(err) {
+			return echo.NewHTTPError(http.StatusBadRequest, "Email already in use")
+		}
 		return echo.NewHTTPError(http.StatusInternalServerError, "Internal error")
 	}
 
