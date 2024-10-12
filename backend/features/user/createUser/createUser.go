@@ -32,7 +32,7 @@ func (r route) createUser(ctx echo.Context) error {
 	var request CreateUserRequest
 	err := ctx.Bind(&request)
 	if err != nil {
-		return ctx.String(http.StatusBadRequest, "Bad request")
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	if err := ctx.Validate(&request); err != nil {
