@@ -5,14 +5,12 @@ import (
 	"net/http"
 
 	"elytra.com/backend/features/user/createUser/database"
-	"github.com/go-playground/validator/v10"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
 )
 
 type route struct {
-	db        *pgxpool.Pool
-	validator *validator.Validate
+	db *pgxpool.Pool
 }
 
 type CreateUserRequest struct {
@@ -42,7 +40,7 @@ func (r route) createUser(ctx echo.Context) error {
 
 	user, err := query.CreateUser(ctx.Request().Context(), mapToParams(request))
 	if err != nil {
-		return ctx.String(http.StatusInternalServerError, "Internal Error")
+		return echo.NewHTTPError(http.StatusInternalServerError, "Internal error")
 	}
 
 	mapped := mapToDto(user)
