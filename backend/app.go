@@ -33,7 +33,7 @@ func (app *App) setupRoutes() {
 		registerOpenAPI(app.Echo)
 	}
 	getUser.RegisterGetUser(app.Echo, app.state.db)
-	createUser.RegisterPostUser(app.Echo, app.state.db, app.state.validator)
+	createUser.RegisterPostUser(app.Echo, app.state.db)
 }
 
 func (app *App) setupLogger() {
@@ -53,6 +53,12 @@ func (app *App) setupLogger() {
 			return nil
 		},
 	}))
+}
+
+func (app *App) configEcho() {
+	app.Echo.Validator = &RequestValidator{
+		validator: app.state.validator,
+	}
 }
 
 func (app *App) Run() {

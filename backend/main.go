@@ -28,6 +28,7 @@ func main() {
 
 	app.setupLogger()
 	app.setupRoutes()
+	app.configEcho()
 
 	if conf.Mode == config.Dev {
 		app.Echo.Use(redirectToDocs)
