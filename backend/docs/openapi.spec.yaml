@@ -13,3 +13,6 @@ paths:
       $ref: "./../features/user/getUser/openapi.getUser.yaml"
     post:
       $ref: "./../features/user/createUser/openapi.createUser.yaml"
+  /users/delete:
+    post:
+      $ref: "./../features/user/deleteUser/openapi.deleteUser.yaml"
