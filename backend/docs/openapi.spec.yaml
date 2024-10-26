@@ -6,13 +6,12 @@ info:
 servers:
   - url: http://localhost:9000
     description: Development server
-
 paths:
   /users:
     get:
       $ref: "./../features/user/getUser/openapi.getUser.yaml"
     post:
       $ref: "./../features/user/createUser/openapi.createUser.yaml"
-  /users/delete:
-    post:
+  /users/{id}:
+    delete:
       $ref: "./../features/user/deleteUser/openapi.deleteUser.yaml"
