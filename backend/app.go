@@ -8,6 +8,7 @@ import (
 	"elytra.com/backend/config"
 	"elytra.com/backend/database"
 	"elytra.com/backend/features/user/createUser"
+	"elytra.com/backend/features/user/deleteUser"
 	"elytra.com/backend/features/user/getUser"
 	"github.com/go-playground/validator/v10"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -34,6 +35,7 @@ func (app *App) setupRoutes() {
 	}
 	getUser.RegisterGetUser(app.Echo, app.state.db)
 	createUser.RegisterPostUser(app.Echo, app.state.db)
+	deleteUser.RegisterDeleteUser(app.Echo, app.state.db)
 }
 
 func (app *App) setupLogger() {

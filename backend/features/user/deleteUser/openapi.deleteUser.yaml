@@ -1,0 +1,17 @@
+operationId: deleteUser
+summary: Delete user
+description: Delete one user
+requestBody:
+  required: true 
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          id:
+            type: string
+        required:
+          - id
+responses:
+  "204":
+    description: User successfully deleted, no content returned
