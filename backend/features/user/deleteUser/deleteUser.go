@@ -17,13 +17,13 @@ type route struct {
 }
 
 type DeleteUserRequest struct {
-	ID string `json:"id"`
+	ID uuid.UUID `param:"id" validate:"required,uuid4"`
 }
 
 func RegisterDeleteUser(e *echo.Echo, db *pgxpool.Pool) {
 	route := route{db: db}
 
-	e.POST("/users/delete", route.deleteUser)
+	e.DELETE("/users/:id", route.deleteUser)
 }
 
 func (r route) deleteUser(ctx echo.Context) error {
@@ -35,15 +35,19 @@ func (r route) deleteUser(ctx echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	id, err := uuid.Parse(request.ID)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	if err := ctx.Validate(&request); err != nil {
+		return err
 	}
 
-	user := query.DeleteUser(ctx.Request().Context(), pgx_google_uuid.UUID(id))
-	if user != nil {
+	rows, errUser := query.DeleteUser(ctx.Request().Context(), pgx_google_uuid.UUID(request.ID))
+
+	if rows == 0 {
+		return ctx.NoContent(http.StatusNotFound)
+	}
+
+	if errUser != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "Internal error")
 	}
 
-	return ctx.JSON(204, "Deleted")
+	return ctx.JSON(204, nil)
 }
