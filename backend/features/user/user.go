@@ -1,9 +1,15 @@
 package user
 
-import . "github.com/google/uuid"
+import (
+	"elytra.com/backend/app"
+	"elytra.com/backend/features/user/createUser"
+	"elytra.com/backend/features/user/deleteUser"
+	"elytra.com/backend/features/user/getUser"
+	"github.com/labstack/echo/v4"
+)
 
-type UserDTO struct {
-	Id    UUID   `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+func RegisterUserRoutes(e *echo.Echo, state app.State) {
+	getUser.RegisterGetUser(e, state.Db)
+	createUser.RegisterPostUser(e, state.Db)
+	deleteUser.RegisterDeleteUser(e, state.Db)
 }

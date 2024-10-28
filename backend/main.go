@@ -4,14 +4,9 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
 
+	"elytra.com/backend/app"
 	"elytra.com/backend/config"
-	"elytra.com/backend/docs"
 )
-
-func registerOpenAPI(e *echo.Echo) {
-	docs.RegisterDocs(e, "./docs/spec.yaml")
-	e.File("/elytra.png", "./elytra.png")
-}
 
 func main() {
 	conf, err := config.GetConfig()
@@ -20,15 +15,15 @@ func main() {
 		log.Fatal().Msg(err.Error())
 	}
 
-	app, err := NewApp(conf, echo.New())
+	app, err := app.NewApp(conf, echo.New())
 
 	if err != nil {
 		log.Fatal().Msg(err.Error())
 	}
 
-	app.setupLogger()
-	app.setupRoutes()
-	app.configEcho()
+	app.SetupLogger()
+	app.SetupRoutes()
+	app.ConfigEcho()
 
 	if conf.Mode == config.Dev {
 		app.Echo.Use(redirectToDocs)

@@ -3,7 +3,7 @@ package createUser
 import (
 	"github.com/google/uuid"
 
-	. "elytra.com/backend/features/user"
+	. "elytra.com/backend/features/user/contracts"
 	. "elytra.com/backend/features/user/createUser/database"
 	pgx_google_uuid "github.com/vgarvardt/pgx-google-uuid/v5"
 )

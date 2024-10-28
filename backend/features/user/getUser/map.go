@@ -3,7 +3,7 @@ package getUser
 import (
 	"github.com/google/uuid"
 
-	. "elytra.com/backend/features/user"
+	. "elytra.com/backend/features/user/contracts"
 	. "elytra.com/backend/features/user/getUser/database"
 )
 

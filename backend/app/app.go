@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"errors"
@@ -7,6 +7,7 @@ import (
 
 	"elytra.com/backend/config"
 	"elytra.com/backend/database"
+	"elytra.com/backend/docs"
 	"elytra.com/backend/features/user/createUser"
 	"elytra.com/backend/features/user/deleteUser"
 	"elytra.com/backend/features/user/getUser"
@@ -25,20 +26,25 @@ type App struct {
 }
 
 type State struct {
-	db        *pgxpool.Pool
+	Db        *pgxpool.Pool
 	validator *validator.Validate
 }
 
-func (app *App) setupRoutes() {
+func registerOpenAPI(e *echo.Echo) {
+	docs.RegisterDocs(e, "./docs/spec.yaml")
+	e.File("/elytra.png", "./elytra.png")
+}
+
+func (app *App) SetupRoutes() {
 	if app.conf.Mode == config.Dev {
 		registerOpenAPI(app.Echo)
 	}
-	getUser.RegisterGetUser(app.Echo, app.state.db)
-	createUser.RegisterPostUser(app.Echo, app.state.db)
-	deleteUser.RegisterDeleteUser(app.Echo, app.state.db)
+	getUser.RegisterGetUser(app.Echo, app.state.Db)
+	createUser.RegisterPostUser(app.Echo, app.state.Db)
+	deleteUser.RegisterDeleteUser(app.Echo, app.state.Db)
 }
 
-func (app *App) setupLogger() {
+func (app *App) SetupLogger() {
 	logger := zerolog.New(os.Stdout)
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	app.Echo.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
@@ -57,7 +63,7 @@ func (app *App) setupLogger() {
 	}))
 }
 
-func (app *App) configEcho() {
+func (app *App) ConfigEcho() {
 	app.Echo.Validator = &RequestValidator{
 		validator: app.state.validator,
 	}

@@ -6,6 +6,7 @@ parameters:
     name: id
     schema:
       type: string
+    required: true
     description: UUID of the user to be deleted
 responses:
   "204":
