@@ -1,15 +1,16 @@
 package user
 
 import (
-	"elytra.com/backend/app"
+	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/labstack/echo/v4"
+
 	"elytra.com/backend/features/user/createUser"
 	"elytra.com/backend/features/user/deleteUser"
 	"elytra.com/backend/features/user/getUser"
-	"github.com/labstack/echo/v4"
 )
 
-func RegisterUserRoutes(e *echo.Echo, state app.State) {
-	getUser.RegisterGetUser(e, state.Db)
-	createUser.RegisterPostUser(e, state.Db)
-	deleteUser.RegisterDeleteUser(e, state.Db)
+func RegisterUserRoutes(e *echo.Echo, db *pgxpool.Pool) {
+	getUser.RegisterGetUser(e, db)
+	createUser.RegisterPostUser(e, db)
+	deleteUser.RegisterDeleteUser(e, db)
 }

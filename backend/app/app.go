@@ -5,18 +5,17 @@ import (
 	"fmt"
 	"os"
 
-	"elytra.com/backend/config"
-	"elytra.com/backend/database"
-	"elytra.com/backend/docs"
-	"elytra.com/backend/features/user/createUser"
-	"elytra.com/backend/features/user/deleteUser"
-	"elytra.com/backend/features/user/getUser"
 	"github.com/go-playground/validator/v10"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+
+	"elytra.com/backend/config"
+	"elytra.com/backend/database"
+	"elytra.com/backend/docs"
+	"elytra.com/backend/features/user"
 )
 
 type App struct {
@@ -26,7 +25,7 @@ type App struct {
 }
 
 type State struct {
-	Db        *pgxpool.Pool
+	db        *pgxpool.Pool
 	validator *validator.Validate
 }
 
@@ -39,9 +38,7 @@ func (app *App) SetupRoutes() {
 	if app.conf.Mode == config.Dev {
 		registerOpenAPI(app.Echo)
 	}
-	getUser.RegisterGetUser(app.Echo, app.state.Db)
-	createUser.RegisterPostUser(app.Echo, app.state.Db)
-	deleteUser.RegisterDeleteUser(app.Echo, app.state.Db)
+	user.RegisterUserRoutes(app.Echo, app.state.db)
 }
 
 func (app *App) SetupLogger() {
