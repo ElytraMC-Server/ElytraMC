@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 
 	. "elytra.com/backend/features/user/contracts"
-	. "elytra.com/backend/features/user/getUser/database"
+	. "elytra.com/backend/features/user/database"
 )
 
 func mapToDto(u User) UserDTO {

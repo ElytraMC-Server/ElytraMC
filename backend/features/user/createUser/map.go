@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 
 	. "elytra.com/backend/features/user/contracts"
-	. "elytra.com/backend/features/user/createUser/database"
+	. "elytra.com/backend/features/user/database"
 	pgx_google_uuid "github.com/vgarvardt/pgx-google-uuid/v5"
 )
 

@@ -1,4 +1,3 @@
-//go:generate sqlc generate
 package getUser
 
 import (
@@ -7,7 +6,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
 
-	"elytra.com/backend/features/user/getUser/database"
+	"elytra.com/backend/features/user/database"
 	"elytra.com/backend/utils"
 )
 
@@ -27,7 +26,7 @@ func (r route) getUsers(ctx echo.Context) error {
 	users, err := query.GetUsers(ctx.Request().Context())
 
 	if err != nil {
-		return ctx.NoContent(http.StatusInternalServerError)
+		return ctx.String(http.StatusInternalServerError, err.Error())
 	}
 
 	mapped := utils.Map(users, mapToDto)

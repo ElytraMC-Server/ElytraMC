@@ -1,3 +1,4 @@
+//go:generate sqlc generate
 package user
 
 import (

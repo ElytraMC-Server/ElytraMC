@@ -1,10 +1,9 @@
-//go:generate sqlc generate
 package deleteUser
 
 import (
 	"net/http"
 
-	"elytra.com/backend/features/user/deleteUser/database"
+	"elytra.com/backend/features/user/database"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
