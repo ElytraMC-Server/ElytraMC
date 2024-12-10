@@ -1,5 +1,5 @@
 .env
 *.env
-docs/spec.yaml
+docs/swagger.yaml
 config/secrets.yaml
 .bin
