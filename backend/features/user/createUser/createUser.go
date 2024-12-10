@@ -15,8 +15,8 @@ type route struct {
 }
 
 type CreateUserRequest struct {
-	Username string `json:"username" validate:"required"`
-	Email    string `json:"email" validate:"required,email"`
+	Username string `json:"username" validate:"required" example:"test"`
+	Email    string `json:"email" validate:"required,email" example:"test@gmail.com"`
 }
 
 func RegisterPostUser(e *echo.Echo, db *pgxpool.Pool) {
@@ -25,6 +25,17 @@ func RegisterPostUser(e *echo.Echo, db *pgxpool.Pool) {
 	e.POST("/users", route.createUser)
 }
 
+// CreateUser godoc
+// @Summary Create user
+// @Description Create one user
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param account body createUser.CreateUserRequest true "Create user model"
+// @Success 200 {object} contracts.UserDTO "User creation"
+// @Failure 400 "Failed to create the user"
+// @Failure 500
+// @Router /users/{id} [post]
 func (r route) createUser(ctx echo.Context) error {
 	query := database.New(r.db)
 

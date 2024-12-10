@@ -1,0 +1,98 @@
+components:
+  schemas:
+    contracts.UserDTO:
+      properties:
+        email:
+          example: test@gmail.com
+          type: string
+        id:
+          example: ddf6aa7a-625b-4c29-93f0-faf617af5a8e
+          type: string
+        name:
+          example: test
+          type: string
+      type: object
+    createUser.CreateUserRequest:
+      properties:
+        email:
+          example: test@gmail.com
+          type: string
+        username:
+          example: test
+          type: string
+      required:
+      - email
+      - username
+      type: object
+externalDocs:
+  description: ""
+  url: ""
+info:
+  description: The ElytraMC API
+  title: ElytraMC API
+  version: "1.0"
+openapi: 3.1.0
+paths:
+  /users:
+    get:
+      description: get all users from the database
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/contracts.UserDTO'
+                type: array
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Get users
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      description: Delete one user if it exists
+      parameters:
+      - description: UUID of the to be deleted
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: User successfully deleted, no content returned
+        "404":
+          description: User not found
+        "500":
+          description: Internal Server Error
+      summary: Delete user
+      tags:
+      - users
+    post:
+      description: Create one user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser.CreateUserRequest'
+        description: Create user model
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/contracts.UserDTO'
+          description: User creation
+        "400":
+          description: Failed to create the user
+        "500":
+          description: Internal Server Error
+      summary: Create user
+      tags:
+      - users
+servers:
+- description: Development server
+  url: http://localhost:9000

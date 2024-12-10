@@ -30,7 +30,7 @@ type State struct {
 }
 
 func registerOpenAPI(e *echo.Echo) {
-	docs.RegisterDocs(e, "./docs/spec.yaml")
+	docs.RegisterDocs(e, "./docs/swagger.yaml")
 	e.File("/elytra.png", "./elytra.png")
 }
 

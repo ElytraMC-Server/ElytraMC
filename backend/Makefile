@@ -1,5 +1,4 @@
 run: generate
-	@redocly bundle ./docs/openapi.spec.yaml -o ./docs/spec.yaml
 	@go run .
 
 
@@ -13,6 +12,11 @@ install-tools:
 
 BIN_PATH := PATH="$(abspath $(BIN)):$$PATH"
 
-generate:
+generate: openapi-docs
 	@echo Generating go files...
 	@$(BIN_PATH) go generate ./...
+
+
+openapi-docs:
+	@echo Generating Openapi spec
+	@$(BIN_PATH) swag init --v3.1 --outputTypes yaml

@@ -20,6 +20,14 @@ func RegisterGetUser(e *echo.Echo, db *pgxpool.Pool) {
 	e.GET("/users", route.getUsers)
 }
 
+// GetUsers godoc
+// @Summary Get users
+// @Description get all users from the database
+// @Tags users
+// @Produce json
+// @Success 200 {array} contracts.UserDTO
+// @Failure 500
+// @Router /users [get]
 func (r route) getUsers(ctx echo.Context) error {
 	query := database.New(r.db)
 

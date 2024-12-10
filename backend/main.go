@@ -8,6 +8,11 @@ import (
 	"elytra.com/backend/config"
 )
 
+// @title ElytraMC API
+// @version 1.0
+// @description The ElytraMC API
+// @servers.url http://localhost:9000
+// @servers.description Development server
 func main() {
 	conf, err := config.GetConfig()
 

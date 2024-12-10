@@ -3,7 +3,7 @@ package contracts
 import "github.com/google/uuid"
 
 type UserDTO struct {
-	Id    uuid.UUID `json:"id"`
-	Name  string    `json:"name"`
-	Email string    `json:"email"`
+	Id    uuid.UUID `json:"id" example:"ddf6aa7a-625b-4c29-93f0-faf617af5a8e"`
+	Name  string    `json:"name" example:"test"`
+	Email string    `json:"email" example:"test@gmail.com"`
 }

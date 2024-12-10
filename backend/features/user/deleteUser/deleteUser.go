@@ -16,7 +16,7 @@ type route struct {
 }
 
 type DeleteUserRequest struct {
-	ID uuid.UUID `param:"id" validate:"required,uuid4"`
+	ID uuid.UUID `param:"id" validate:"required,uuid4" uri:"id" example:"ddf6aa7a-625b-4c29-93f0-faf617af5a8e"`
 }
 
 func RegisterDeleteUser(e *echo.Echo, db *pgxpool.Pool) {
@@ -25,6 +25,15 @@ func RegisterDeleteUser(e *echo.Echo, db *pgxpool.Pool) {
 	e.DELETE("/users/:id", route.deleteUser)
 }
 
+// DeleteUser godoc
+// @Summary Delete user
+// @Description Delete one user if it exists
+// @Tags users
+// @Param id path string true "UUID of the to be deleted"
+// @Success 204 "User successfully deleted, no content returned"
+// @Failure 404 "User not found"
+// @Failure 500
+// @Router /users/{id} [delete]
 func (r route) deleteUser(ctx echo.Context) error {
 	query := database.New(r.db)
 
