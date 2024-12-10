@@ -35,7 +35,7 @@ func RegisterPostUser(e *echo.Echo, db *pgxpool.Pool) {
 // @Success 200 {object} contracts.UserDTO "User creation"
 // @Failure 400 "Failed to create the user"
 // @Failure 500
-// @Router /users/{id} [post]
+// @Router /users [post]
 func (r route) createUser(ctx echo.Context) error {
 	query := database.New(r.db)
 
