@@ -46,6 +46,26 @@ func (q *Queries) DeleteUser(ctx context.Context, id pgx_google_uuid.UUID) (int6
 	return result.RowsAffected(), nil
 }
 
+const editUser = `-- name: EditUser :execrows
+UPDATE users 
+SET username = $1, email = $2
+WHERE id = $3
+`
+
+type EditUserParams struct {
+	Username string
+	Email    string
+	ID       pgx_google_uuid.UUID
+}
+
+func (q *Queries) EditUser(ctx context.Context, arg EditUserParams) (int64, error) {
+	result, err := q.db.Exec(ctx, editUser, arg.Username, arg.Email, arg.ID)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
+}
+
 const getUsers = `-- name: GetUsers :many
 SELECT id, email, username FROM users
 ORDER BY username
