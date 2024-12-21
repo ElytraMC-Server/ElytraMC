@@ -46,7 +46,6 @@ func (r route) editUser(ctx echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	fmt.Println(request)
 
 	rows, errUser := query.EditUser(ctx.Request().Context(), mapToParams(request))
 	if rows == 0 {
