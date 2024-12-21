@@ -15,4 +15,7 @@ WHERE id = $1;
 SELECT * FROM users
 ORDER BY username;
 
-
+-- name: EditUser :execrows
+UPDATE users 
+SET username = $1, email = $2
+WHERE id = $3;
