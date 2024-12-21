@@ -1,7 +1,6 @@
 package editUser
 
 import (
-	"fmt"
 	"net/http"
 
 	"elytra.com/backend/features/user/database"
@@ -17,14 +16,14 @@ type route struct {
 
 type EditUserRequest struct {
 	ID       uuid.UUID `param:"id" validate:"required,uuid4" uri:"id" example:"ddf6aa7a-625b-4c29-93f0-faf617af5a8e"`
-	Username string    `json:"username" validate:"required" example:"test"`
+	Username string    `json:"name" validate:"required" example:"test"`
 	Email    string    `json:"email" validate:"required,email" example:"test@gmail.com"`
 }
 
 func RegisterEditUser(e *echo.Echo, db *pgxpool.Pool) {
 	route := route{db: db}
 
-	e.PATCH("/users/:id", route.editUser)
+	e.PUT("/users/:id", route.editUser)
 }
 
 // EditUser godoc
@@ -37,7 +36,7 @@ func RegisterEditUser(e *echo.Echo, db *pgxpool.Pool) {
 // @Success 204 "User successfully updated, no content returned"
 // @Failure 404 "User not found"
 // @Failure 500
-// @Router /users/{id} [patch]
+// @Router /users/{id} [put]
 func (r route) editUser(ctx echo.Context) error {
 	query := database.New(r.db)
 
@@ -46,7 +45,11 @@ func (r route) editUser(ctx echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	fmt.Println(request)
+
+	if err := ctx.Validate(&request); err != nil {
+		// it's already an HTTP error
+		return err
+	}
 
 	rows, errUser := query.EditUser(ctx.Request().Context(), mapToParams(request))
 	if rows == 0 {
