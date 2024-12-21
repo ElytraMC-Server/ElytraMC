@@ -15,7 +15,7 @@ type route struct {
 }
 
 type CreateUserRequest struct {
-	Username string `json:"username" validate:"required" example:"test"`
+	Username string `json:"name" validate:"required" example:"test"`
 	Email    string `json:"email" validate:"required,email" example:"test@gmail.com"`
 }
 
