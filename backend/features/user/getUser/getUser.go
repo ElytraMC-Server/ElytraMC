@@ -6,6 +6,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
 
+	"elytra.com/backend/features/user/contracts"
 	"elytra.com/backend/features/user/database"
 	"elytra.com/backend/utils"
 )
@@ -37,7 +38,7 @@ func (r route) getUsers(ctx echo.Context) error {
 		return ctx.String(http.StatusInternalServerError, err.Error())
 	}
 
-	mapped := utils.Map(users, mapToDto)
+	mapped := utils.Map(users, contracts.MapToDto)
 
 	return ctx.JSON(200, mapped)
 }

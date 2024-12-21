@@ -3,18 +3,9 @@ package createUser
 import (
 	"github.com/google/uuid"
 
-	. "elytra.com/backend/features/user/contracts"
 	. "elytra.com/backend/features/user/database"
 	pgx_google_uuid "github.com/vgarvardt/pgx-google-uuid/v5"
 )
-
-func mapToDto(u User) UserDTO {
-	return UserDTO{
-		Id:    uuid.UUID(u.ID),
-		Name:  u.Username,
-		Email: u.Email,
-	}
-}
 
 func mapToParams(r CreateUserRequest) CreateUserParams {
 	return CreateUserParams{

@@ -1,7 +1,6 @@
 package editUser
 
 import (
-	"fmt"
 	"net/http"
 
 	"elytra.com/backend/features/user/database"
