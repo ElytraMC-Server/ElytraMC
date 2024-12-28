@@ -90,3 +90,20 @@ func (q *Queries) GetUsers(ctx context.Context) ([]User, error) {
 	}
 	return items, nil
 }
+
+const loginUser = `-- name: LoginUser :one
+SELECT id, email, username FROM users
+WHERE username = $1 AND email = $2
+`
+
+type LoginUserParams struct {
+	Username string
+	Email    string
+}
+
+func (q *Queries) LoginUser(ctx context.Context, arg LoginUserParams) (User, error) {
+	row := q.db.QueryRow(ctx, loginUser, arg.Username, arg.Email)
+	var i User
+	err := row.Scan(&i.ID, &i.Email, &i.Username)
+	return i, err
+}
