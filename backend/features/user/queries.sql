@@ -19,3 +19,7 @@ ORDER BY username;
 UPDATE users 
 SET username = $1, email = $2
 WHERE id = $3;
+
+-- name: LoginUser :one
+SELECT * FROM users
+WHERE username = $1 AND email = $2;
