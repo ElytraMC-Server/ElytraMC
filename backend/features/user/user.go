@@ -5,8 +5,8 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
 
+	"elytra.com/backend/features/user/auth/createUser"
 	"elytra.com/backend/features/user/auth/loginUser"
-	"elytra.com/backend/features/user/createUser"
 	"elytra.com/backend/features/user/deleteUser"
 	edituser "elytra.com/backend/features/user/editUser"
 	"elytra.com/backend/features/user/getUser"

@@ -28,14 +28,16 @@ func RegisterEditUser(e *echo.Echo, db *pgxpool.Pool) {
 
 // EditUser godoc
 // @Summary Edit user
-// @Description Edit one user if it exists
+// @Description Update user details for an existing user by UUID
 // @Tags users
 // @Accept json
-// @Param id path string true "UUID of the user"
+// @Produce json
+// @Param id path string true "UUID of the user" example:"123e4567-e89b-12d3-a456-426614174000"
 // @Param account body editUser.EditUserRequest true "Edit user model"
-// @Success 204 "User successfully updated, no content returned"
+// @Success 204 {string} string "User successfully updated, no content returned"
+// @Failure 400 "Invalid input or payload"
 // @Failure 404 "User not found"
-// @Failure 500
+// @Failure 500 "Internal server error"
 // @Router /users/{id} [put]
 func (r route) editUser(ctx echo.Context) error {
 	query := database.New(r.db)

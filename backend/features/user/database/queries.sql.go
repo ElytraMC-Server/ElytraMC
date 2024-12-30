@@ -13,23 +13,34 @@ import (
 
 const createUser = `-- name: CreateUser :one
 INSERT INTO users (
-  id, username, email
+  id, username, email, password_hash
 ) VALUES (
-  $1, $2, $3
+  $1, $2, $3, $4
 )
-RETURNING id, email, username
+RETURNING id, email, username, password_hash
 `
 
 type CreateUserParams struct {
-	ID       pgx_google_uuid.UUID
-	Username string
-	Email    string
+	ID           pgx_google_uuid.UUID
+	Username     string
+	Email        string
+	PasswordHash string
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
-	row := q.db.QueryRow(ctx, createUser, arg.ID, arg.Username, arg.Email)
+	row := q.db.QueryRow(ctx, createUser,
+		arg.ID,
+		arg.Username,
+		arg.Email,
+		arg.PasswordHash,
+	)
 	var i User
-	err := row.Scan(&i.ID, &i.Email, &i.Username)
+	err := row.Scan(
+		&i.ID,
+		&i.Email,
+		&i.Username,
+		&i.PasswordHash,
+	)
 	return i, err
 }
 
@@ -67,7 +78,7 @@ func (q *Queries) EditUser(ctx context.Context, arg EditUserParams) (int64, erro
 }
 
 const getUsers = `-- name: GetUsers :many
-SELECT id, email, username FROM users
+SELECT id, email, username, password_hash FROM users
 ORDER BY username
 `
 
@@ -80,7 +91,12 @@ func (q *Queries) GetUsers(ctx context.Context) ([]User, error) {
 	var items []User
 	for rows.Next() {
 		var i User
-		if err := rows.Scan(&i.ID, &i.Email, &i.Username); err != nil {
+		if err := rows.Scan(
+			&i.ID,
+			&i.Email,
+			&i.Username,
+			&i.PasswordHash,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -92,7 +108,7 @@ func (q *Queries) GetUsers(ctx context.Context) ([]User, error) {
 }
 
 const loginUser = `-- name: LoginUser :one
-SELECT id, email, username FROM users
+SELECT id, email, username, password_hash FROM users
 WHERE username = $1 AND email = $2
 `
 
@@ -104,6 +120,11 @@ type LoginUserParams struct {
 func (q *Queries) LoginUser(ctx context.Context, arg LoginUserParams) (User, error) {
 	row := q.db.QueryRow(ctx, loginUser, arg.Username, arg.Email)
 	var i User
-	err := row.Scan(&i.ID, &i.Email, &i.Username)
+	err := row.Scan(
+		&i.ID,
+		&i.Email,
+		&i.Username,
+		&i.PasswordHash,
+	)
 	return i, err
 }
