@@ -27,12 +27,13 @@ func RegisterDeleteUser(e *echo.Echo, db *pgxpool.Pool) {
 
 // DeleteUser godoc
 // @Summary Delete user
-// @Description Delete one user if it exists
+// @Description Delete a user by their UUID if they exist
 // @Tags users
-// @Param id path string true "UUID of the to be deleted"
-// @Success 204 "User successfully deleted, no content returned"
+// @Param id path string true "UUID of the user to be deleted" example:"123e4567-e89b-12d3-a456-426614174000"
+// @Success 204 {string} string "User successfully deleted, no content returned"
+// @Failure 400 "Invalid request payload or UUID format"
 // @Failure 404 "User not found"
-// @Failure 500
+// @Failure 500 "Internal server error"
 // @Router /users/{id} [delete]
 func (r route) deleteUser(ctx echo.Context) error {
 	query := database.New(r.db)

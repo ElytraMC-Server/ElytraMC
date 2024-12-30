@@ -9,8 +9,9 @@ import (
 
 func mapToParams(r CreateUserRequest) CreateUserParams {
 	return CreateUserParams{
-		ID:       pgx_google_uuid.UUID(uuid.New()),
-		Username: r.Username,
-		Email:    r.Email,
+		ID:           pgx_google_uuid.UUID(uuid.New()),
+		Username:     r.Username,
+		Email:        r.Email,
+		PasswordHash: r.Password,
 	}
 }

@@ -11,6 +11,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type route struct {
@@ -20,6 +21,7 @@ type route struct {
 type LoginUserRequest struct {
 	Username string `json:"name" validate:"required" example:"test"`
 	Email    string `json:"email" validate:"required,email" example:"test@gmail.com"`
+	Password string `json:"password" validate:"required,min=8" example:"securePassword123"`
 }
 
 func RegisterLoginUser(e *echo.Echo, db *pgxpool.Pool) {
@@ -30,14 +32,15 @@ func RegisterLoginUser(e *echo.Echo, db *pgxpool.Pool) {
 
 // LoginUser godoc
 // @Summary Login user
-// @Description Login one user
+// @Description Authenticate a user and return an access token
 // @Tags users
 // @Accept json
 // @Produce json
 // @Param account body loginUser.LoginUserRequest true "Login user model"
-// @Success 200 "User logged in"
-// @Failure 400 "Failed to login the user"
-// @Failure 500
+// @Success 200 "User successfully logged in"
+// @Failure 400 "Invalid request payload or credentials"
+// @Failure 401 "Invalid email or password"
+// @Failure 500 "Internal server error"
 // @Router /auth/login [post]
 func (r route) loginUser(ctx echo.Context) error {
 	query := database.New(r.db)
@@ -56,6 +59,10 @@ func (r route) loginUser(ctx echo.Context) error {
 			})
 		}
 		return echo.NewHTTPError(http.StatusInternalServerError, "Internal error")
+	}
+
+	if bcrypt.CompareHashAndPassword([]byte(rows.PasswordHash), []byte(request.Password)) != nil {
+		return echo.NewHTTPError(http.StatusUnauthorized, "invalid_credentials")
 	}
 
 	// Генерация токена
@@ -77,4 +84,3 @@ func (r route) loginUser(ctx echo.Context) error {
 		"token_type": "Bearer",
 	})
 }
-

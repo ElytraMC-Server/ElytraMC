@@ -9,7 +9,8 @@ import (
 )
 
 type User struct {
-	ID       pgx_google_uuid.UUID
-	Email    string
-	Username string
+	ID           pgx_google_uuid.UUID
+	Email        string
+	Username     string
+	PasswordHash string
 }

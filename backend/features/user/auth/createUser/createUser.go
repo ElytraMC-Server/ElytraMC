@@ -5,6 +5,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"
+	"golang.org/x/crypto/bcrypt"
 
 	"elytra.com/backend/features/user/contracts"
 	"elytra.com/backend/features/user/database"
@@ -18,25 +19,26 @@ type route struct {
 type CreateUserRequest struct {
 	Username string `json:"name" validate:"required" example:"test"`
 	Email    string `json:"email" validate:"required,email" example:"test@gmail.com"`
+	Password string `json:"password" validate:"required,min=8" example:"securePassword123"`
 }
 
 func RegisterPostUser(e *echo.Echo, db *pgxpool.Pool) {
 	route := route{db: db}
 
-	e.POST("/users", route.createUser)
+	e.POST("/auth/register", route.createUser)
 }
 
 // CreateUser godoc
 // @Summary Create user
-// @Description Create one user
+// @Description Register a new user and return the created user information
 // @Tags users
 // @Accept json
 // @Produce json
 // @Param account body createUser.CreateUserRequest true "Create user model"
-// @Success 200 {object} contracts.UserDTO "User creation"
-// @Failure 400 "Failed to create the user"
-// @Failure 500
-// @Router /users [post]
+// @Success 201 {object} contracts.UserDTO "User successfully created"
+// @Failure 400 "Invalid request payload or validation error"
+// @Failure 500 "Internal server error"
+// @Router /auth/register [post]
 func (r route) createUser(ctx echo.Context) error {
 	query := database.New(r.db)
 
@@ -50,6 +52,13 @@ func (r route) createUser(ctx echo.Context) error {
 		// it's already an HTTP error
 		return err
 	}
+
+	password_hash, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, "Internal error")
+	}
+
+	request.Password = string(password_hash)
 
 	user, err := query.CreateUser(ctx.Request().Context(), mapToParams(request))
 	if err != nil {
